@@ -6,13 +6,14 @@ Project: Particle Image Velocimetry (PIV) code!
 
 # %% Libraries:
 import numpy as np
-import cv2
+#import cv2
+import pims
 import matplotlib.pyplot as plt
 from tqdm import tqdm # pip install tqdm
-from numba import jit # pip install numba
+#from numba import jit # pip install numba
 
 # %% Functions:
-@jit(nopython=True)
+#@jit(nopython=True)
 def corr2(c1,c2): # Cross-correlation
     c1-=c1.mean()
     c2-=c2.mean()
@@ -88,16 +89,27 @@ def subpix(R,axis): # Subpixle resolution (parabolic-Gaussian fit)
 
 # %% loading images and setting the parameters:
 
-img_1 = (np.flip(cv2.imread('a1.png', 0),0)).astype('float32') # Read Grayscale
-img_2 = (np.flip(cv2.imread('a2.png', 0),0)).astype('float32')
+#img_1 = (np.flip(cv2.imread('a1.png', 0),0)).astype('float32') # Read Grayscale
+#img_2 = (np.flip(cv2.imread('a2.png', 0),0)).astype('float32')
 
-i_fix=500     # Number of maximum correction cycles
-r_limit=0.5   # minimum acceptable correlation coefficient
-l_scale=1.0   # spatial scale [m/pixel]
-t_scale=1.0   # time step = 1/frame_rate [s/frame]
+#img1 = pims.as_grey(pims.open('Example/a1.jpg'))
+#img2 = pims.as_grey(pims.open('Example/a2.jpg'))
 
-iw=51 # Interrodation Windows Sizes (pixel)
-sw=81 # Search Windows Sizes (sw > iw) (pixel)
+img1 = pims.as_grey(pims.open('Image_4727487780660_000558.bmp'))
+img2 = pims.as_grey(pims.open('Image_4727504415800_000559.bmp'))
+img1 = np.float64(img1[0])
+img2 = np.float64(img2[0]) 
+
+img_1 = img1[450:1690,100:1940] 
+img_2 = img2[450:1690,100:1940] 
+
+i_fix= 1000     # Number of maximum correction cycles
+r_limit= 0.35   # minimum acceptable correlation coefficient
+l_scale=0.0118 # spatial scale [mm/pixel]
+t_scale=1/60   # time step = 1/frame_rate [s/frame]
+
+iw=90#51 # Interrodation Windows Sizes (pixel)
+sw=int(iw*1.5)#81 # Search Windows Sizes (sw > iw) (pixel)
 
 # %% Search Algorithm:
 ia,ja = img_1.shape
