@@ -113,7 +113,7 @@ img_2 = img2[450:1690,100:1940]
 i_fix= 1000     # Number of maximum correction cycles
 r_limit= 0.45   # minimum acceptable correlation coefficient
 l_scale=0.0118 # spatial scale [mm/pixel]
-t_scale=1/60   # time step = 1/frame_rate [s/frame]
+t_scale=1/80   # time step = 1/frame_rate [s/frame]
 
 iw=90#51 # Interrodation Windows Sizes (pixel)
 sw=int(iw*1.5)#81 # Search Windows Sizes (sw > iw) (pixel)
